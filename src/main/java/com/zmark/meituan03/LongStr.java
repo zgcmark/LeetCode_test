@@ -1,9 +1,6 @@
 package com.zmark.meituan03;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -73,5 +70,70 @@ public class LongStr {
             }
             return ans;
         }
+
+        //    给定一个字符串 S 和一个字符串 T，请在 S 中找出包含 T 所有字母的最小子串。(minimum-window-substring)
+//
+//    输入: S = "ADOBECODEBANC", T = "ABC"
+//        DOBECODEBA NC
+//    输出: "BANC"
+        public int lengthOfLongestSubstring3(String s, String t) {
+            TreeMap treeMap=new TreeMap();
+            String tstr=t;
+            ArrayList<Character> tempList = new ArrayList<>();
+            HashSet<Character> tempSet = new HashSet<>();
+            HashSet<Character> tempSet2 = new HashSet<>();
+            for (int i = 0; i < tstr.length(); i++) {
+                tempList.add(tstr.charAt(i));
+                tempSet.add(tstr.charAt(i));
+            }
+
+            ArrayList<Character> charactersList = new ArrayList<>(s.length());
+            for (int i = 0; i < s.length(); i++) {
+                charactersList.add(s.charAt(i));
+            }
+            Integer left=0;
+            Integer right=0;
+
+            //优先找到第一个窗口
+            for (int i = 0; i < s.length(); i++) {
+                char c = s.charAt(i);
+                if (tempSet.contains(c)){
+                    tempSet.remove(c);
+                }
+                    right=i;
+                if (tempSet.size()==0){
+                    break;
+                }
+            }
+            HashMap<Character, Integer> rescountMap = new HashMap<>();
+            List<Character> chuangkouList = charactersList.subList(left, right);
+            for (Character character : charactersList) {
+                if (tempSet2.contains(character)) {
+                    if (rescountMap.containsKey(character)) {
+                        Integer integer = rescountMap.get(character);
+                        rescountMap.put(character, integer++);
+                    } else {
+                        rescountMap.put(character, 1);
+                    }
+                }
+            }
+            for (; right < s.length(); right++) {
+                while (!tempSet2.contains(charactersList.get(left))){
+                    left++;
+                }
+                Character i = charactersList.get(left);
+                while (rescountMap.get(i)>1){
+                    left++;
+                    rescountMap.put(i,rescountMap.get(i)-1);
+                }
+                //左区间已经到头了
+            }
+
+        }
     }
+
+
+
+
+
 }
