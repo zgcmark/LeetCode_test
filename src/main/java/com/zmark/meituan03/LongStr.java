@@ -50,6 +50,42 @@ public class LongStr {
             return collect.iterator().next().length();
         }
 
+        //这个是上题学习完后用自己理解的滑动窗口处理
+        public int lengthOfLongestSubstring3(String s) {
+
+            HashMap<Character,Integer> dictMap=new HashMap();
+            HashMap<Character,Integer> window=new HashMap();
+            ArrayList<Character> strList = new ArrayList<Character>();
+            for (int i = 0; i < s.length(); i++) {
+                strList.add(s.charAt(i));
+            }
+            Integer left = 0;
+            Integer right = 0;
+            //初始化窗口
+
+            for (int i = 0; i < strList.size(); i++) {
+                if (window.containsKey(strList.get(i))){
+                    break;
+                }else {
+                    window.put(strList.get(i),i);
+                    right++;
+                }
+            }
+            int ans=window.size();
+            //开始滑动
+            while (right<strList.size()){
+                right++;
+                if (window.containsKey(strList.get(right))){
+                    Integer integer = window.get(strList.get(right));
+                    left=integer;
+                }
+                window.put(strList.get(right),right);
+                ans=Math.max(window.size(),ans);
+            }
+
+            return ans;
+
+        }
 
 
         public int lengthOfLongestSubstring2(String s) {
@@ -76,8 +112,8 @@ public class LongStr {
 //    输入: S = "ADOBECODEBANC", T = "ABC"
 //        DOBECODEBA NC
 //    输出: "BANC"
-        public int lengthOfLongestSubstring3(String s, String t) {
-            TreeMap treeMap=new TreeMap();
+        public String lengthOfLongestSubstring3(String s, String t) {
+            TreeMap<Integer,String> fianlMap=new TreeMap();
             String tstr=t;
             ArrayList<Character> tempList = new ArrayList<>();
             HashSet<Character> tempSet = new HashSet<>();
@@ -107,7 +143,7 @@ public class LongStr {
             }
             HashMap<Character, Integer> rescountMap = new HashMap<>();
             List<Character> chuangkouList = charactersList.subList(left, right);
-            for (Character character : charactersList) {
+            for (Character character : chuangkouList) {
                 if (tempSet2.contains(character)) {
                     if (rescountMap.containsKey(character)) {
                         Integer integer = rescountMap.get(character);
@@ -127,8 +163,9 @@ public class LongStr {
                     rescountMap.put(i,rescountMap.get(i)-1);
                 }
                 //左区间已经到头了
+                fianlMap.put(right-left+1,s.substring(left,right));
             }
-
+        return fianlMap.lastEntry().getValue();
         }
     }
 
