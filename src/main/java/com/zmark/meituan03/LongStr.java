@@ -5,6 +5,13 @@ import java.util.stream.Collectors;
 
 /**
  * @author zhengguangchen
+ *
+ *
+ * 解决数组 字符串 链表  这类型的问题，主要的方法就是  双指针是比较好的解决方案
+ * 1.快慢指针 一个快一个慢
+ * 2.双向指针，一个左 一个右
+ * 3.滑动窗口
+ *
  */
 
 
@@ -106,6 +113,25 @@ public class LongStr {
             }
             return ans;
         }
+
+        //    输入: "abcabcbb"
+//    pwwwewkew
+//    输出: 3
+//    解释: 因为无重复字符的最长子串是 "abc"，所以其长度为 3。
+        public int lengthOfLongestSubstring7(String s) {
+            //<字符，出现的下标>
+            HashMap<Character, Integer> map = new HashMap<>();
+            Integer ans=0;
+            Integer left=0;
+            for (int i = 0; i < s.length(); i++) {
+                char c = s.charAt(i);
+                if (map.containsKey(c)){
+                    left=Math.max(left,map.get(c)+1);
+                }
+            }
+        }
+
+
 
         //    给定一个字符串 S 和一个字符串 T，请在 S 中找出包含 T 所有字母的最小子串。(minimum-window-substring)
 //
