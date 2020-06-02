@@ -1,5 +1,9 @@
 package com.zmark.meituan03.meituan05;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.TreeMap;
+
 /**
  * @author zhengguangchen
  */
@@ -18,9 +22,28 @@ package com.zmark.meituan03.meituan05;
 public class Longstr05 {
     public String longestPalindrome(String s) {
         //定义状态  dp[i][j]=true  ,true 是 回文, false 不是
-
+        char[] chars = s.toCharArray();
+        int len = chars.length;
+        boolean[][] dp = new boolean[chars.length][chars.length];
+        for (int i = 0; i < len; i++) {
+            dp[i][i] = true;
+        }
+        TreeMap<Integer,String> ans = new TreeMap<>();
+        for (int j = 1; j < len; j++) {
+            for (int i = 0; i < len; i++) {
+                //左右相等
+                if (chars[i]==chars[j] && chars[i+1]==chars[j-1] && j-i>2){
+                    dp[i][j]=true;
+                    ans.put( s.substring(i,j).length(),s.substring(i,j));
+                }else {
+                    dp[i][j]=dp[i+1][j-1];
+                }
+            }
+        }
+        return ans.firstEntry().getValue();
         //定义状态转移方程
 //        dp[i][j]=true
+
 
     }
 }
